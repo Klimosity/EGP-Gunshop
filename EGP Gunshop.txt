@@ -1,0 +1,257 @@
+@name Klimosity's Gunshop
+@inputs CS:wirelink [S1 S2 S3 S4]:entity Amount
+@outputs U1 U2 U3 U4 DropM
+@persist VAT [S1Price S2Price S3Price S4Price]:string Pos:vector2
+
+interval(100)
+runOnChat(1)
+
+if(duped()){
+    printColor(vec(0,200,200),"Designed By Klimosity")
+}
+
+A = owner():lastSaid():explode(" ")
+if(A[1,string]=="!shipments" & chatClk(owner())){
+    hideChat(1)
+    if(S1 | S2 | S3 | S4){printColor(vec(0,170,255), "Shipment - Code by iJosh - Design by Klimosity")}
+    if(S1 | S2 | S3 | S4){printColor(vec(0,0,255), "-------------------------------------------------------------")}
+    if(S1 | S2 | S3 | S4){printColor(vec(0,0,255), "Number     |         Name         |      Amount")}
+    if(S1 | S2 | S3 | S4){printColor(vec(0,0,255), "-------------------------------------------------------------")}
+    if(S1){printColor(vec(0,170,255), "#1             |     ", S1:shipmentName(), "    |     ", S1:shipmentAmount())}
+    if(S2){printColor(vec(0,170,255), "#2             |     ", S2:shipmentName(), "    |     ", S2:shipmentAmount())}
+    if(S3){printColor(vec(0,170,255), "#3             |     ", S3:shipmentName(), "    |     ", S3:shipmentAmount())}
+    if(S4){printColor(vec(0,170,255), "#4             |     ", S4:shipmentName(), "    |     ", S4:shipmentAmount())}
+}
+
+##Cursor Pos
+
+if(findCanQuery()) {
+findIncludeClass("player")
+findInSphere(CS:entity():pos(),250)
+User = findClosest(CS:entity():pos())
+}
+Pos = round(CS:egpCursor(User))
+Use = (changed(User:keyUse()==1)&User:keyUse()==1)
+
+if(changed(CS:entity())) {
+CS:egpClear()
+
+
+CS:egpRoundedBox(1,vec2(100,100),vec2(100,100))
+
+
+CS:egpCircle(30,vec2(0,0),vec2(5,5))
+CS:egpColor(30,vec(0,0,0))
+CS:egpParentToCursor(30)
+
+
+## Drawing
+CS:egpBox(1, vec2(256,256), vec2(512,512)) #Background Box
+CS:egpColor(1, vec(0,0,0))
+
+
+CS:egpBox(2,vec2(150, 50), vec2(300,50)) #Banner Box
+CS:egpColor(2,vec(255,215,0))                        
+
+CS:egpBox(126,vec2(460, 50), vec2(300,50)) #Balance Box Box
+CS:egpColor(126,vec(255,215,0))   
+
+## Shipment List
+
+CS:egpBox(4,vec2(70, 135),vec2(250,30)) 
+CS:egpColor(4,vec(0,0,255)) 
+CS:egpSize(4, 1)
+
+CS:egpBox(5,vec2(70, 185),vec2(250,30)) 
+CS:egpColor(5,vec(0,0,255)) 
+CS:egpSize(5, 1)
+
+CS:egpBox(6,vec2(70, 235),vec2(250,30)) 
+CS:egpColor(6,vec(0,0,255)) 
+CS:egpSize(6, 1)
+
+CS:egpBox(7,vec2(70, 285),vec2(250,30)) 
+CS:egpColor(7,vec(0,0,255)) 
+CS:egpSize(7, 1)
+
+## Price List
+
+CS:egpBoxOutline(8,vec2(461, 135),vec2(100,30)) 
+CS:egpColor(8,vec(0,0,255)) 
+CS:egpSize(8, 1)
+
+CS:egpBoxOutline(9,vec2(461, 185),vec2(100,30)) 
+CS:egpColor(9,vec(0,0,255)) 
+CS:egpSize(9, 1)
+
+CS:egpBoxOutline(10,vec2(461, 235),vec2(100,30)) 
+CS:egpColor(10,vec(0,0,255)) 
+CS:egpSize(10, 1)
+
+CS:egpBoxOutline(11,vec2(461, 285),vec2(100,30)) 
+CS:egpColor(11,vec(0,0,255)) 
+CS:egpSize(11, 1)
+
+
+## Banner Text
+CS:egpText(13, "Automatic Gunshop", vec2(20,34))
+CS:egpFont(13, "Trebuchet", 30)
+CS:egpColor(13,vec(0,0,0))
+
+#Info
+CS:egpText(120, "Please insert some money", vec2(20,320))
+CS:egpFont(120, "Trebuchet", 20)
+CS:egpText(121, "and select the gun you", vec2(20,340))
+CS:egpFont(121, "Trebuchet", 20)
+CS:egpText(122, "want on this screen.", vec2(20,360))
+CS:egpFont(122, "Trebuchet", 20)
+CS:egpText(123, "Then your inserted money", vec2(20,410))
+CS:egpFont(123, "Trebuchet", 20)
+CS:egpText(124, "will be taken and shortly", vec2(20,430))
+CS:egpFont(124, "Trebuchet", 20)
+CS:egpText(125, "your gun will be dispenced.", vec2(20,450))
+CS:egpFont(125, "Trebuchet", 20)
+
+
+
+}
+
+##Shipment Price
+VAT = 0.60
+if(S1){
+    S1Price = (round((S1:shipmentPrice()/10) + ((S1:shipmentPrice()/10)*VAT))):toString()
+}else{
+    S1Price = "NUL"
+}
+if(S2){
+    S2Price = ((S2:shipmentPrice()/10) + ((S2:shipmentPrice()/10)*VAT)):toString()
+}else{
+    S2Price = "NUL"
+}
+if(S3){
+    S3Price = (round((S3:shipmentPrice()/10) + ((S3:shipmentPrice()/10)*VAT))):toString()
+}else{
+    S3Price = "NUL"
+}
+if(S4){
+    S4Price = (round((S4:shipmentPrice()/10) + ((S4:shipmentPrice()/10)*VAT))):toString()
+}else{
+    S4Price = "NUL"
+}
+
+
+## Shipment 1
+CS:egpText(18,S1:shipmentName(),vec2(18, 125))
+CS:egpFont(18, "Trebuchet", 20)
+CS:egpColor(18,vec(255,255,255))
+
+CS:egpText(19, "$" + S1Price, vec2(434,125))
+CS:egpFont(19, "Trebuchet", 20)
+CS:egpColor(19,vec(255,255,255))
+
+## Shipment 2
+CS:egpText(20,S2:shipmentName(),vec2(18, 175))
+CS:egpFont(20, "Trebuchet", 20)
+CS:egpColor(20,vec(255,255,255))
+
+CS:egpText(21, "$" + S2Price, vec2(434,175))
+CS:egpFont(21, "Trebuchet", 20)
+CS:egpColor(21,vec(255,255,255))
+
+## Shipment 3
+CS:egpText(22,S3:shipmentName(),vec2(18, 225))
+CS:egpFont(22, "Trebuchet", 20)
+CS:egpColor(22,vec(255,255,255))
+
+CS:egpText(23, "$" + S3Price, vec2(434,225))
+CS:egpFont(23, "Trebuchet", 20)
+CS:egpColor(23,vec(255,255,255))
+
+## Shipment 4
+CS:egpText(24,S4:shipmentName(),vec2(18, 275))
+CS:egpFont(24, "Trebuchet", 20)
+CS:egpColor(24,vec(255,255,255))
+
+CS:egpText(25, "$" + S4Price, vec2(434,275))
+CS:egpFont(25, "Trebuchet", 20)
+CS:egpColor(25,vec(255,255,255))
+
+
+## Balance
+
+CS:egpText(29, "Balance : " + Amount:toString(), vec2(330,38))
+CS:egpFont(29, "Trebuchet", 25)
+CS:egpColor(29,vec(0,0,0))
+
+
+
+## Touch Screen Aspects  
+    U1 = 0
+    U2 = 0
+    U3 = 0
+    U4 = 0
+    
+    DropM = 0
+    ## Shipment 1
+    ##Hover and use
+    if(inrange(Pos, vec2(40, 120),vec2(300,150))){
+        CS:egpColor(4, vec4(0,0,255,155))
+        if(User:keyUse()){
+        CS:egpColor(4, vec4(0,0,255,255))
+        if(Amount >= S1Price:toNumber()){
+            DropM = S1Price:toNumber()
+            U1 = 1
+        }else{
+            CS:egpColor(5, vec4(0,0,255,155))
+        }
+    }}else{
+        CS:egpColor(4, vec4(0,0,255,255))
+}
+    ##Shipment 2
+    
+    ##Hover and use
+    if(inrange(Pos, vec2(40, 170),vec2(300,200))){
+        CS:egpColor(5, vec4(0,0,255,155))
+        if(User:keyUse()){
+        CS:egpColor(5, vec4(0,0,255,255))
+        if(Amount >= S2Price:toNumber()){
+            DropM = S2Price:toNumber()
+            U2 = 1
+        }else{
+            CS:egpColor(5, vec4(0,0,255,155))
+        }
+    }}else{
+        CS:egpColor(5, vec4(0,0,255,255))
+}
+    
+    ##Shipment 3
+        ##Hover and use
+    if(inrange(Pos, vec2(40, 220),vec2(300,250))){
+        CS:egpColor(6, vec4(0,0,255,155))
+        if(User:keyUse()){
+        CS:egpColor(6, vec4(0,0,255,255))
+        if(Amount >= S3Price:toNumber()){
+            DropM = S3Price:toNumber()
+            U3 = 1
+        }else{
+            CS:egpColor(6, vec4(0,0,255,155))
+        }
+    }}else{
+        CS:egpColor(6, vec4(0,0,255,255))
+}
+    
+    ##Shipment 4
+    ##Hover and use
+    if(inrange(Pos, vec2(40, 270),vec2(300,300))){
+        CS:egpColor(7, vec4(0,0,255,155))
+        if(User:keyUse()){
+        CS:egpColor(7, vec4(0,0,255,255))
+        if(Amount >= S4Price:toNumber()){
+            DropM = S4Price:toNumber()
+            U4 = 1
+        }else{
+            CS:egpColor(7, vec4(0,0,255,155))
+        }
+    }}else{
+        CS:egpColor(7, vec4(0,0,255,255))
+}
